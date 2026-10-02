@@ -1,4 +1,5 @@
 package com.ifpb.notificacoes.model;
+import com.ifpb.notificacoes.validation.ResidenciaValida;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,7 @@ import jakarta.persistence.Column;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ResidenciaValida
 public class Notificacao {
 
     @Id
