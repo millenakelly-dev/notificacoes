@@ -2,6 +2,7 @@ package com.ifpb.notificacoes.controller;
 import com.ifpb.notificacoes.exception.NotificacaoNaoEncontrada;
 import com.ifpb.notificacoes.model.Notificacao;
 import com.ifpb.notificacoes.repository.*;
+import com.ifpb.notificacoes.service.DuplicidadeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificacaoController {
     private final NotificacaoRepository repository;
+    private final DuplicidadeService duplicidadeService;
+
 
     @PostMapping
     public ResponseEntity<Notificacao> criar(@RequestBody @Valid Notificacao notificacao) {
@@ -24,12 +27,17 @@ public class NotificacaoController {
     }
 
     @GetMapping
-    public List<Notificacao> listar(@RequestParam(required = false) String agravo, @RequestParam(required = false) String nomePaciente) {
-            Specification<Notificacao> filtro = Specification.allOf(
-                    NotificacaoSpecs.agravoContem(agravo),
-                    NotificacaoSpecs.nomePacienteContem(nomePaciente)
-            );
-            return repository.findAll(filtro);
+    public List<Notificacao> listar(@RequestParam(required = false) String agravo, @RequestParam(required = false) String nomePaciente, @RequestParam(required = false) Boolean duplicadas) {
+        Specification<Notificacao> filtroDuplicadas = Boolean.TRUE.equals(duplicadas)
+                ? NotificacaoSpecs.idEm(duplicidadeService.idsDuplicados())
+                : NotificacaoSpecs.todas();
+
+        Specification<Notificacao> filtro = Specification.allOf(
+                NotificacaoSpecs.agravoContem(agravo),
+                NotificacaoSpecs.nomePacienteContem(nomePaciente),
+                filtroDuplicadas
+        );
+        return repository.findAll(filtro);
     }
 
     @GetMapping("/{id}")
