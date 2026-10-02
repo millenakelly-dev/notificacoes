@@ -1,12 +1,13 @@
 package com.ifpb.notificacoes.controller;
 import com.ifpb.notificacoes.exception.NotificacaoNaoEncontrada;
 import com.ifpb.notificacoes.model.Notificacao;
-import com.ifpb.notificacoes.repository.NotificacaoRepository;
+import com.ifpb.notificacoes.repository.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 @RestController
@@ -23,8 +24,12 @@ public class NotificacaoController {
     }
 
     @GetMapping
-    public List<Notificacao> listar() {
-        return repository.findAll();
+    public List<Notificacao> listar(@RequestParam(required = false) String agravo, @RequestParam(required = false) String nomePaciente) {
+            Specification<Notificacao> filtro = Specification.allOf(
+                    NotificacaoSpecs.agravoContem(agravo),
+                    NotificacaoSpecs.nomePacienteContem(nomePaciente)
+            );
+            return repository.findAll(filtro);
     }
 
     @GetMapping("/{id}")
