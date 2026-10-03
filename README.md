@@ -4,30 +4,11 @@ API REST em **Spring Boot** para cadastrar, consultar, atualizar e excluir notif
 
 Atividade prática de **Programação para a Web I** — ADS, IFPB Campus Cajazeiras.
 
-**Autores:** Millena Kelly Silva Almeida
+**Integrantes:** Millena Kelly Silva Almeida
 
 ## Tecnologias
 
 Java 21 · Spring Boot 4.1.1 (Web MVC, Data JPA, Validation) · H2 (em memória) · Lombok · Maven
-
-## Arquitetura em camadas
-
-O projeto segue o **modelo em camadas**: cada camada tem uma responsabilidade e conversa só com a camada logo abaixo.
-
-```
-Cliente (Insomnia / front-end)
-        │ HTTP + JSON
-        ▼
-Controller   → recebe a requisição, aciona @Valid, devolve o status HTTP
-        ▼
-Service      → regras de negócio (RN01: duplicidade)
-        ▼
-Repository   → acesso ao banco (Spring Data JPA)
-        ▼
-Banco H2
-```
-
-Pacotes de apoio: `model` (entidade `Notificacao`), `validation` (validadores das regras RN02 e RN03) e `exception` (tratamento central de erros).
 
 ## Como executar
 
@@ -77,6 +58,7 @@ Exemplo: `GET /notificacao?nomePaciente=maria&duplicadas=true`
 
 Obrigatórios sempre: `agravo`, `nomePaciente`, `sexo` (`M`, `F` ou `I`) e `dataNotificacao`.
 
+
 ## Regras de negócio
 
 - **RN01 — Duplicidade:** são possíveis duplicadas as notificações com mesmo agravo, nome do paciente, data de nascimento e nome da mãe, e datas de notificação com até 3 dias de diferença. O texto é comparado sem diferenciar maiúsculas/minúsculas nem espaços extras, e notificações com algum desses campos em branco ficam de fora. Disponível via `?duplicadas=true`.
@@ -100,4 +82,3 @@ Erros retornam `application/problem+json`: `400` para dados inválidos (campos e
 ## Observações
 
 - A paginação e a ordenação (desafio opcional) não foram implementadas.
-- `duplicadas=false` equivale a não aplicar o filtro.
