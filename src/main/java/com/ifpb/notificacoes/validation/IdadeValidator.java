@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class IdadeValidator implements ConstraintValidator<IdadeValida, Notificacao> {
-    private static final int IDADE_MINIMA = 10;
+    private static final int IDADE_MINIMA = 16;
 
     @Override
     public boolean isValid(Notificacao n, ConstraintValidatorContext context) {
@@ -16,14 +16,12 @@ public class IdadeValidator implements ConstraintValidator<IdadeValida, Notifica
         context.disableDefaultConstraintViolation();
         boolean valido = true;
 
-        //  idade obrigatória se data de nascimento desconhecida
         if (n.getDataNascimento() == null && n.getIdade() == null) {
             adicionarErro(context, "idade",
                     "Idade é obrigatória quando a data de nascimento não é informada");
             valido = false;
         }
 
-        //  gestante obrigatória para sexo feminino com idade >= 16
         Integer idadeAnos = calcularIdade(n);
         boolean feminino = "F".equalsIgnoreCase(n.getSexo());
         boolean gestanteVazio = n.getGestante() == null || n.getGestante().isBlank();
