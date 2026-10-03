@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class IdadeValidator implements ConstraintValidator<IdadeValida, Notificacao> {
-    private static final int IDADE_MINIMA = 16;
+    private static final int IDADE_MINIMA = 10;
 
     @Override
     public boolean isValid(Notificacao n, ConstraintValidatorContext context) {
