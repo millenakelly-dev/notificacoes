@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,7 @@ public class Notificacao {
     @Column(length = 1)
     private String sexo;
 
+    @PastOrPresent(message = "Data de nascimento invalida")
     private LocalDate dataNascimento;
     private String nomeMae;
 
@@ -50,8 +52,11 @@ public class Notificacao {
 
     @Min(value = 0, message = "Idade não pode ser negativa")
     private Integer idade;
+
+    @Pattern(regexp = "1º trimestre|2º trimestre|3º trimestre|Idade gestacional ignorada|Não|Não se aplica|Ignorado",message = "Valor de gestante inválido")
     private String gestante;
 
+    @Pattern(regexp = "AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO",message = "UF inválida")
     @Column(length = 2)
     private String ufResidencia;
     private String municipioResidencia;

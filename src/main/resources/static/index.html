@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PW1</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<div class="layout">
+
+  <aside class="menu">
+    <div>
+      <p class="menu-titulo">Notificações de agravos</p>
+      <p class="menu-sub">Programação para a Web I</p>
+    </div>
+    <nav aria-label="Páginas">
+      <a href="#/consulta" data-nav="consulta">Consulta<span id="cont-notif" class="contador">-</span></a>
+      <a href="#/cadastro" data-nav="cadastro">Cadastro</a>
+      <a href="#/requisicoes" data-nav="requisicoes">Requisições<span id="cont-req" class="contador">0</span></a>
+    </nav>
+  </aside>
+
+  <main>
+    <p id="aviso" class="aviso" hidden role="status"></p>
+
+    <section data-pagina="consulta">
+      <div class="topo">
+        <h1>Consulta</h1>
+        <a href="#/cadastro" class="btn primario">Nova notificação</a>
+      </div>
+      <div class="filtros">
+        <input id="f-id" type="number" min="1" placeholder="ID" aria-label="Filtrar por ID" class="filtro-id">
+        <input id="f-agravo" type="text" placeholder="Filtrar por agravo" aria-label="Filtrar por agravo">
+        <input id="f-paciente" type="text" placeholder="Filtrar por paciente" aria-label="Filtrar por paciente">
+        <label><input id="f-dup" type="checkbox"> Somente duplicadas</label>
+      </div>
+      <div class="painel">
+        <div class="tabela-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Agravo</th><th>Paciente</th><th>Sexo</th><th>Notificação</th><th>Residência</th>
+                <th class="acao">Alterar</th><th class="acao">Excluir</th>
+              </tr>
+            </thead>
+            <tbody id="tb"></tbody>
+          </table>
+        </div>
+        <p id="tb-total" class="total"></p>
+      </div>
+    </section>
+
+    <section data-pagina="cadastro" hidden>
+      <div class="topo"><h1 id="form-titulo">Nova notificação</h1></div>
+      <form id="form" class="painel form" novalidate>
+        <div id="campos" class="grade"></div>
+        <div class="acoes-form">
+          <a href="#/consulta" class="btn">Cancelar</a>
+          <button type="submit" class="btn primario">Salvar</button>
+        </div>
+      </form>
+    </section>
+  
+    <section data-pagina="requisicoes" hidden>
+      <h1>Requisições HTTP</h1>
+      <p class="descricao">Exemplos de requisições da atividade, executados ao vivo na API. Cada cartão mostra a requisição enviada e a resposta recebida. O teste cadastra um registro de teste e o exclui no final.</p>
+
+      <div class="barra">
+        <button id="btn-testes" class="btn primario">Executar requisições</button>
+        <button id="btn-alternar" class="btn" type="button">Recolher tudo</button>
+        <p id="resumo" class="resumo"></p>
+      </div>
+
+      <div id="lista-req" class="lista-req"></div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <span id="api-ponto" class="ponto"></span>
+    <span id="api-texto">Verificando a API</span>
+  </footer>
+
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>
